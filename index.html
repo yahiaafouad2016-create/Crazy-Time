@@ -44,6 +44,11 @@
     animation: spin 1s linear;
   }
 
+.upside-down {
+  transform: rotate(180deg);
+  transition: transform 1s;
+}
+
   @keyframes shake {
     0% { transform: translate(0); }
     10% { transform: translate(-10px, 10px); }
@@ -113,10 +118,19 @@
       `hsl(${Math.random() * 360}, 80%, 50%)`;
   };
 
-  spinBtn.onclick = () => {
-    spinBtn.classList.add("spin");
-    setTimeout(() => spinBtn.classList.remove("spin"), 1000);
-  };
+spinBtn.onclick = () => {
+  document.body.classList.add("upside-down");
+
+  spinBtn.disabled = true;
+  spinBtn.textContent = "😵 UPSIDE DOWN";
+
+  setTimeout(() => {
+    document.body.classList.remove("upside-down");
+    spinBtn.disabled = false;
+    spinBtn.textContent = "SPIN 🌀";
+  }, 20000); // 20 seconds
+};
+
 
   magnetBtn.onclick = () => {
     buttons.forEach(btn => {

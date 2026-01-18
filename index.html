@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Crazy Buttons</title>
+<title>Crazy Time</title>
 
 <style>
   body {
@@ -11,93 +11,132 @@
     background: #0a58ff;
     font-family: Arial, sans-serif;
     overflow: hidden;
+  }
+
+  .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
     gap: 20px;
+    justify-content: center;
   }
 
   button {
-    padding: 20px 30px;
+    padding: 18px 30px;
     font-size: 18px;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     cursor: pointer;
-    transition: 0.2s;
   }
 
-  .runaway {
+  #runaway {
     position: absolute;
   }
 
   .shake {
-    animation: shake 0.3s;
+    animation: shake 1s;
+  }
+
+  .spin {
+    animation: spin 1s linear;
   }
 
   @keyframes shake {
     0% { transform: translate(0); }
-    25% { transform: translate(-8px, 8px); }
-    50% { transform: translate(8px, -8px); }
-    75% { transform: translate(-8px, -8px); }
+    10% { transform: translate(-10px, 10px); }
+    20% { transform: translate(10px, -10px); }
+    30% { transform: translate(-10px, -10px); }
+    40% { transform: translate(10px, 10px); }
+    50% { transform: translate(-10px, 10px); }
+    60% { transform: translate(10px, -10px); }
+    70% { transform: translate(-10px, -10px); }
+    80% { transform: translate(10px, 10px); }
+    90% { transform: translate(-10px, 10px); }
     100% { transform: translate(0); }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 </style>
 </head>
 
 <body>
 
-<button class="runaway">RUN AWAY 😈</button>
-<button id="shakeBtn">SHAKE 💥</button>
-<button id="colorBtn">COLORS 🎨</button>
-<button id="teleportBtn">TELEPORT 🔄</button>
-<button id="trollBtn">DON'T CLICK 🤡</button>
+<!-- RUN AWAY BUTTON (SEPARATE) -->
+<button id="runaway">RUN AWAY 😈</button>
+
+<!-- NORMAL BUTTONS -->
+<div class="container">
+  <button id="shakeBtn">SHAKE 💥</button>
+  <button id="colorBtn">COLORS 🎨</button>
+  <button id="spinBtn">SPIN 🌀</button>
+  <button id="magnetBtn">MAGNET 🧲</button>
+  <button id="countdownBtn">COUNTDOWN 💣</button>
+  <button id="ghostBtn">INVISIBLE 👻</button>
+  <button id="trollBtn">DON'T CLICK 🤡</button>
+</div>
 
 <script>
-  const runaway = document.querySelector(".runaway");
-  const shakeBtn = document.getElementById("shakeBtn");
-  const colorBtn = document.getElementById("colorBtn");
-  const teleportBtn = document.getElementById("teleportBtn");
-  const trollBtn = document.getElementById("trollBtn");
+  const runaway = document.getElementById("runaway");
+  const buttons = document.querySelectorAll(".container button");
 
-  runaway.addEventListener("mouseenter", () => {
+  runaway.onmouseenter = () => {
     const x = Math.random() * (window.innerWidth - 150);
     const y = Math.random() * (window.innerHeight - 60);
-
     runaway.style.left = x + "px";
     runaway.style.top = y + "px";
-
-    runaway.style.background =
-      `hsl(${Math.random() * 360}, 100%, 60%)`;
-  });
+    runaway.style.background = `hsl(${Math.random()*360},100%,60%)`;
+  };
 
   shakeBtn.onclick = () => {
     document.body.classList.add("shake");
-    setTimeout(() => document.body.classList.remove("shake"), 300);
+    setTimeout(() => document.body.classList.remove("shake"), 1000);
   };
 
   colorBtn.onclick = () => {
     document.body.style.background =
-      `hsl(${Math.random() * 360}, 80%, 50%)`;
+      `hsl(${Math.random()*360},80%,50%)`;
   };
 
-  teleportBtn.onclick = () => {
-    const x = Math.random() * (window.innerWidth - 150);
-    const y = Math.random() * (window.innerHeight - 60);
+  spinBtn.onclick = () => {
+    spinBtn.classList.add("spin");
+    setTimeout(() => spinBtn.classList.remove("spin"), 1000);
+  };
 
-    teleportBtn.style.position = "absolute";
-    teleportBtn.style.left = x + "px";
-    teleportBtn.style.top = y + "px";
+  magnetBtn.onclick = () => {
+    buttons.forEach(btn => {
+      btn.style.position = "absolute";
+      btn.style.left = "50%";
+      btn.style.top = "50%";
+    });
+  };
+
+  countdownBtn.onclick = () => {
+    let count = 3;
+    countdownBtn.textContent = count;
+    const timer = setInterval(() => {
+      count--;
+      countdownBtn.textContent = count;
+      if (count === 0) {
+        clearInterval(timer);
+        alert("💥 BOOM!");
+        countdownBtn.textContent = "COUNTDOWN 💣";
+      }
+    }, 700);
+  };
+
+  ghostBtn.onclick = () => {
+    ghostBtn.style.opacity =
+      ghostBtn.style.opacity === "0" ? "1" : "0";
   };
 
   trollBtn.onclick = () => {
-    const texts = [
-      "WHY 😭",
-      "STOP 😡",
-      "I SAID DON'T",
-      "OK CLICK AGAIN",
-      "YOU WIN… NOT 😈"
-    ];
+    const texts = ["WHY 😭", "STOP 😡", "AGAIN?", "NO 😈", "YOU WIN...NOT" "OK 😅"];
     trollBtn.textContent =
       texts[Math.floor(Math.random() * texts.length)];
   };

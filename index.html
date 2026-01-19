@@ -141,21 +141,21 @@ spinBtn.onclick = () => {
     });
   };
 
-  countdownBtn.onclick = () => {
-    let count = 3;
+countdownBtn.onclick = () => {
+  let count = 3;
+  countdownBtn.textContent = count;
+  countdownBtn.disabled = true;
+
+  const timer = setInterval(() => {
+    count--;
     countdownBtn.textContent = count;
 
-    const timer = setInterval(() => {
-      count--;
-      countdownBtn.textContent = count;
-
-      if (count === 0) {
-        clearInterval(timer);
-        alert("💥 BOOM!");
-        countdownBtn.textContent = "COUNTDOWN 💣";
-      }
-    }, 700);
-  };
+    if (count === 0) {
+      clearInterval(timer);
+      location.reload(); // 🔄 refresh page
+    }
+  }, 1000);
+};
 
   ghostBtn.onclick = () => {
     ghostBtn.style.opacity =
